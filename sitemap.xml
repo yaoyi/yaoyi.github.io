@@ -1,15 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://yaoyi.github.io/blog/2013/10/10/hello-world/</loc>
+        <lastmod>2013-10-10T14:05:49+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yaoyi.github.io/blog/2013/11/18/angularjs-seo/</loc>
+        <lastmod>2013-12-21T23:32:42+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://yaoyi.github.io/blog/archives/</loc>
-        <lastmod>2013-07-03T19:22:02+08:00</lastmod>
+        <lastmod>2013-12-21T23:32:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://yaoyi.github.io/</loc>
-        <lastmod>2013-07-03T19:22:02+08:00</lastmod>
+        <lastmod>2013-12-21T23:32:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://yaoyi.github.io/robots.txt</loc>
-        <lastmod>2013-07-03T19:21:08+08:00</lastmod>
+        <lastmod>2013-10-10T13:57:45+08:00</lastmod>
     </url>
 </urlset>

@@ -7,8 +7,7 @@
 	<meta name="author" content="Your Name">
 
 	
-	<meta name="description" content=" Blog Archives
-">
+	<meta name="description" content="Nov 18th, 2013 Angularjs Seo angularjs的seo 用angularjs写一个SAP，最头疼就是seo， 即搜索引擎无法索引angularjs的网站，如果你的网站不能被搜到，那看起来就像你的网站从来没有存在过一样。 当google索引你的网站 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +87,118 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-18T00:00:00+08:00" data-updated="true" itemprop="datePublished">Nov 18<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/18/angularjs-seo/" itemprop="url">Angularjs Seo</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>angularjs的seo</h2>
+
+<p>用angularjs写一个SAP，最头疼就是seo， 即搜索引擎无法索引angularjs的网站，如果你的网站不能被搜到，那看起来就像你的网站从来没有存在过一样。</p>
+
+<h3>当google索引你的网站</h3>
+
+<p>google爬取angularjs网站的时候，因为angularjs没执行， html中angularjs的markup没有被替换为响应的数据，
+所以当google索引你网站的页面的时候，它看到的是这样</p>
+
+<pre><code>&lt;h1&gt; -  - &lt;/h1&gt;
+</code></pre>
+
+<p>或者可能是这样</p>
+
+<pre><code>&lt;h1&gt;&lt;/h1&gt;
+</code></pre>
+
+<p>而你希望被爬到的是这样</p>
+
+<pre><code>&lt;h1&gt;Awesome App -User Profile - Fred James&lt;/h1&gt;
+</code></pre>
+
+<p>目前基本上有两种方案来解决这个问题</p>
+
+<ol>
+<li>需要在server-side写一些代码，判断当googlebot访问你的网站的时候返回一个你网站的javascript-free version，也就是静态html页. 但这样做的麻烦显而易见，就是需要做额外的判断，破坏了服务端的代码的结构，对静态页的维护也增加了运营成本</li>
+<li>现在网上关于angularjs使用的比较多的方案就是利用<a href="http://phantomjs.org/">PhantomJS</a>, 接下来就详细说下这个方案</li>
+</ol>
+
+
+<p>这个方法不适用于百度，因为根据百度<a href="http://www.baidu.com/search/guide.html#4">给站长的建议</a>中的表述，百度爬虫无法爬取javascript中内容</p>
+
+<p>google对于基于javascript的SPA网站有一个<a href="https://developers.google.com/webmasters/ajax-crawling/docs/specification">解决方案</a>，这里简单概括下要点:</p>
+
+<ul>
+<li>google只会索引#!</li>
+<li>googlebot</li>
+</ul>
+
+
+<p>aa</p>
+
+<p data-height="266" data-theme-id="3139" data-slug-hash="jqJGk" data-user="yaoyi" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/yaoyi/pen/jqJGk'>jqJGk</a> by yaoyi (<a href='http://codepen.io/yaoyi'>@yaoyi</a>) on <a href='http://codepen.io'>CodePen</a></p>
+
+
+<script async src="//codepen.io/assets/embed/ei.js"></script>
+
+
+<p><a class="jsbin-embed" href="http://jsbin.com/oyALoWU/1/embed?html,output">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script></p>
+
+<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-10T14:05:00+08:00" data-updated="true" itemprop="datePublished">Oct 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/10/10/hello-world/" itemprop="url">Hello World</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>hello world</p>
+
+		
+		
+	</div>
+
+</article>
 
 </div>
 <nav id="pagenavi">
