@@ -1,0 +1,229 @@
+<p>[TOC]</p>
+
+<h4>ubuntu 12.04 LTS 上安装solr4</h4>
+
+<p><a href="http://jmuras.com/blog/2012/setup-solr-4-tomcat-ubuntu-server-12-04-lts/">How to setup solr 4 on tomcat in Ubuntu server 12.04 LTS</a></p>
+
+<ol>
+<li><p> 安装tomcat</p>
+
+<pre><code>apt-get install tomcat6 curl
+</code></pre></li>
+<li><p>下载<a href="http://lucene.apache.org/solr">solr4</a></p></li>
+<li><p>选择一个路径作为SOLR_HOME, 这里用/opt/solr</p></li>
+<li><p>解压下载的文件, 然后将以下内容宝贝到相应目录</p></li>
+<li><p>拷贝example/solr/* 到 /opt/solr/</p></li>
+<li>拷贝example/webapps/solr.war 到 /opt/solr/</li>
+<li><p>拷贝example/lib/ext/* 到 /var/lib/tomcat6/shared</p></li>
+<li><p>修改 /opt/solr/collection1/conf/solrconfig.xml</p>
+
+<pre><code>&lt;dataDir&gt;${solr.data.dir:/opt/solr/data}&lt;/dataDir&gt;
+</code></pre></li>
+<li><p>创建/opt/solr/data</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /opt/solr/data
+</span><span class='line'>$ sudo chown tomcat6 /opt/solr/data</span></code></pre></td></tr></table></div></figure>
+
+
+<p>/opt/solr将会是:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tree -d
+</span><span class='line'>├── bin
+</span><span class='line'>├── collection1
+</span><span class='line'>│   └── conf
+</span><span class='line'>│       ├── lang
+</span><span class='line'>│       ├── velocity
+</span><span class='line'>│       └── xslt
+</span><span class='line'>└── data</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+ 7. 创建/etc/tomcat6/Catalina/localhost/solr.xml</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;Context docBase="/opt/solr/solr.war" debug="0" crossContext="true"&gt;
+</span><span class='line'>  &lt;Environment name="solr/home" type="java.lang.String" value="/opt/solr" override="true"/&gt;
+</span><span class='line'>&lt;/Context&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>8.重启tomcat6</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> $ sudo service tomcat6 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>9.访问 <a href="http://localhost:8080/solr">http://localhost:8080/solr</a></p>
+
+<p><img src="https://lh6.googleusercontent.com/-2rMjyez6Pso/Urm5LgMeUlI/AAAAAAAACLA/EioF57T5j9g/s0/dashboard2.png" alt="solr管理面板" /></p>
+
+<h4>配置中文分词器</h4>
+
+<h5>使用默认分词</h5>
+
+<p><img src="https://lh3.googleusercontent.com/-6j5CbsBhXrk/UrprbJNA8rI/AAAAAAAACLk/vblromBOme0/s0/QQ20131225-3.png" alt="使用默认分词" /></p>
+
+<h5>使用自带的cjk分词</h5>
+
+<p>打开 <a href="http://localhost:8081/solr/#/collection1/analysis">http://localhost:8081/solr/#/collection1/analysis</a></p>
+
+<p><img src="https://lh3.googleusercontent.com/-FFg1ej8X1SI/UrprAfYTrJI/AAAAAAAACLc/pqKQPpyC6Yg/s0/QQ20131225-2.png" alt="使用自带的cjk分词" /></p>
+
+<h5>配置IK中文分词</h5>
+
+<ol>
+<li>下载 <a href="https://ik-analyzer.googlecode.com/files/IK%20Analyzer%202012FF_hf1.zip">IK Analyzer 2012FF_hf1.zip</a> 解压</li>
+<li>将 IKAnalyzer2012FF_u1.jar 拷贝到 /var/lib/tomcat6/webapps/solr/WEB-INF/lib</li>
+<li>修改 /opt/solr/collection1/conf/schema.xml</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;fieldType name="text_ik" class="solr.TextField" omitNorms="false"&gt;
+</span><span class='line'>    &lt;analyzer type="index" class="org.wltea.analyzer.lucene.IKAnalyzer"/&gt;
+</span><span class='line'>    &lt;analyzer type="query" class="org.wltea.analyzer.lucene.IKAnalyzer"/&gt;
+</span><span class='line'>&lt;/fieldType&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.重启tomcat服务</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ![enter image description here][7]sudo service tomcat6 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>打开 <a href="http://localhost:8081/solr/#/collection1/analysis">http://localhost:8081/solr/#/collection1/analysis</a></li>
+</ol>
+
+
+<p><img src="https://lh3.googleusercontent.com/-7ULejdp78So/UrpuACt0BZI/AAAAAAAACL0/hGy_HPX6GXA/s0/QQ20131225-5.png" alt="测试IK中文分词" /></p>
+
+<h5>IK扩展字典</h5>
+
+<p><code>土豪金</code>分词</p>
+
+<p><img src="https://lh4.googleusercontent.com/-4wd5SjAHmIc/UrpsgX9cm7I/AAAAAAAACLs/pcAVDrRq0aw/s0/QQ20131225-4.png" alt="土豪金IK分词" /></p>
+
+<p><strong>土豪和金被分开索引, 我们希望的是<code>土豪金</code>也能被索引</strong></p>
+
+<ol>
+<li>创建目录/var/lib/tomcat6/webapps/solr/WEB-INF/classes</li>
+<li>拷贝IKAnalyzer.cfg.xml stopword.dic到classes目录</li>
+<li>修改IKAnalyzer.cfg.xml</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;  
+</span><span class='line'>&lt;properties&gt;  
+</span><span class='line'>  &lt;comment&gt;IK Analyzer 扩展配置&lt;/comment&gt;
+</span><span class='line'>  &lt;!--用户可以在这里配置自己的扩展字典 --&gt;
+</span><span class='line'>  &lt;entry key="ext_dict"&gt;ext.dic;&lt;/entry&gt; 
+</span><span class='line'>  &lt;!--用户可以在这里配置自己的扩展停止词字典--&gt;
+</span><span class='line'>  &lt;entry key="ext_stopwords"&gt;stopword.dic;&lt;/entry&gt; 
+</span><span class='line'>&lt;/properties&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>classes目录下创建 ext.dic, 加入<code>土豪金</code></li>
+<li>重启tomcat</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo service tomcat6 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>测试<code>土豪金</code></p>
+
+<p><img src="https://lh6.googleusercontent.com/-16st5B0kvU4/Urpx8qmx-DI/AAAAAAAACMI/ppZLg9KjfbI/s0/QQ20131225-6.png" alt="土豪金IK分词-扩展词典" /></p>
+
+<h4>sunspot</h4>
+
+<p>sunspot方便rails使用solr, 本地测试直接使用sunport_solr, 而production环境是使用ubuntu的tomcat, 需要做一些配置
+数据库用的mongodb</p>
+
+<ol>
+<li><p>修改core的名字 collection1 &ndash;> production</p>
+
+<ul>
+<li>/opt/solr/collection1 &ndash;> /opt/solr/production</li>
+<li><p>修改/opt/solr/production/core.properties</p>
+
+<pre><code>  name=production
+</code></pre></li>
+<li><p>重启tomcat</p></li>
+</ul>
+</li>
+<li><p>修改schema.xml, 内容替换为 <a href="https://gist.github.com/yaoyi/8120633/raw/3aaa5eab57616d37c4c0007f7a97e93e080214cf/schema-sunspot.xml">schema.xml</a></p></li>
+<li><p>Gemfile 加入 sunport, sunport-mongo支持</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem "sunspot_rails", '2.1.0'
+</span><span class='line'>gem 'sunspot_mongo', github: 'yaoyi/sunspot_mongo'</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>配置 sunspot.yml</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>production:
+</span><span class='line'>  solr:
+</span><span class='line'>    hostname: localhost
+</span><span class='line'>    port: 8080
+</span><span class='line'>    log_level: WARNING
+</span><span class='line'>    path: /solr/production
+</span><span class='line'>    # read_timeout: 2
+</span><span class='line'>    # open_timeout: 0.5</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>重建索引</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RAILS_ENV=production bundle exec rake sunspot:mongo:reindex</span></code></pre></td></tr></table></div></figure>
+
+
+<p>FAQ:</p>

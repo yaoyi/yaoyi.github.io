@@ -7,7 +7,7 @@
 	<meta name="author" content="Your Name">
 
 	
-	<meta name="description" content="Nov 18th, 2013 Angularjs Seo angularjs的seo 用angularjs写一个SAP，最头疼就是seo， 即搜索引擎无法索引angularjs的网站，如果你的网站不能被搜到，那看起来就像你的网站从来没有存在过一样。 当google索引你的网站 &hellip;">
+	<meta name="description" content="Dec 24th, 2013 Ubunt 12.04 Lts Solr配置 [TOC] ubuntu 12.04 LTS 上安装solr4 How to setup solr 4 on tomcat in Ubuntu server 12.04 LTS 安装tomcat apt-get &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,6 +103,448 @@
   
 
 
+<time datetime="2013-12-24T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 24<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/12/24/ubunt+12.04+LTS-solr%E9%85%8D%E7%BD%AE/" itemprop="url">Ubunt 12.04 Lts Solr配置</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>[TOC]</p>
+
+<h4>ubuntu 12.04 LTS 上安装solr4</h4>
+
+<p><a href="http://jmuras.com/blog/2012/setup-solr-4-tomcat-ubuntu-server-12-04-lts/">How to setup solr 4 on tomcat in Ubuntu server 12.04 LTS</a></p>
+
+<ol>
+<li><p> 安装tomcat</p>
+
+<pre><code>apt-get install tomcat6 curl
+</code></pre></li>
+<li><p>下载<a href="http://lucene.apache.org/solr">solr4</a></p></li>
+<li><p>选择一个路径作为SOLR_HOME, 这里用/opt/solr</p></li>
+<li><p>解压下载的文件, 然后将以下内容宝贝到相应目录</p></li>
+<li><p>拷贝example/solr/* 到 /opt/solr/</p></li>
+<li>拷贝example/webapps/solr.war 到 /opt/solr/</li>
+<li><p>拷贝example/lib/ext/* 到 /var/lib/tomcat6/shared</p></li>
+<li><p>修改 /opt/solr/collection1/conf/solrconfig.xml</p>
+
+<pre><code>&lt;dataDir&gt;${solr.data.dir:/opt/solr/data}&lt;/dataDir&gt;
+</code></pre></li>
+<li><p>创建/opt/solr/data</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /opt/solr/data
+</span><span class='line'>$ sudo chown tomcat6 /opt/solr/data</span></code></pre></td></tr></table></div></figure>
+
+
+<p>/opt/solr将会是:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tree -d
+</span><span class='line'>├── bin
+</span><span class='line'>├── collection1
+</span><span class='line'>│   └── conf
+</span><span class='line'>│       ├── lang
+</span><span class='line'>│       ├── velocity
+</span><span class='line'>│       └── xslt
+</span><span class='line'>└── data</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+ 7. 创建/etc/tomcat6/Catalina/localhost/solr.xml</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;Context docBase="/opt/solr/solr.war" debug="0" crossContext="true"&gt;
+</span><span class='line'>  &lt;Environment name="solr/home" type="java.lang.String" value="/opt/solr" override="true"/&gt;
+</span><span class='line'>&lt;/Context&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>8.重启tomcat6</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> $ sudo service tomcat6 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>9.访问 <a href="http://localhost:8080/solr">http://localhost:8080/solr</a></p>
+
+<p><img src="https://lh6.googleusercontent.com/-2rMjyez6Pso/Urm5LgMeUlI/AAAAAAAACLA/EioF57T5j9g/s0/dashboard2.png" alt="solr管理面板" /></p>
+
+<h4>配置中文分词器</h4>
+
+<h5>使用默认分词</h5>
+
+<p><img src="https://lh3.googleusercontent.com/-6j5CbsBhXrk/UrprbJNA8rI/AAAAAAAACLk/vblromBOme0/s0/QQ20131225-3.png" alt="使用默认分词" /></p>
+
+<h5>使用自带的cjk分词</h5>
+
+<p>打开 <a href="http://localhost:8081/solr/#/collection1/analysis">http://localhost:8081/solr/#/collection1/analysis</a></p>
+
+<p><img src="https://lh3.googleusercontent.com/-FFg1ej8X1SI/UrprAfYTrJI/AAAAAAAACLc/pqKQPpyC6Yg/s0/QQ20131225-2.png" alt="使用自带的cjk分词" /></p>
+
+<h5>配置IK中文分词</h5>
+
+<ol>
+<li>下载 <a href="https://ik-analyzer.googlecode.com/files/IK%20Analyzer%202012FF_hf1.zip">IK Analyzer 2012FF_hf1.zip</a> 解压</li>
+<li>将 IKAnalyzer2012FF_u1.jar 拷贝到 /var/lib/tomcat6/webapps/solr/WEB-INF/lib</li>
+<li>修改 /opt/solr/collection1/conf/schema.xml</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;fieldType name="text_ik" class="solr.TextField" omitNorms="false"&gt;
+</span><span class='line'>    &lt;analyzer type="index" class="org.wltea.analyzer.lucene.IKAnalyzer"/&gt;
+</span><span class='line'>    &lt;analyzer type="query" class="org.wltea.analyzer.lucene.IKAnalyzer"/&gt;
+</span><span class='line'>&lt;/fieldType&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.重启tomcat服务</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ![enter image description here][7]sudo service tomcat6 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>打开 <a href="http://localhost:8081/solr/#/collection1/analysis">http://localhost:8081/solr/#/collection1/analysis</a></li>
+</ol>
+
+
+<p><img src="https://lh3.googleusercontent.com/-7ULejdp78So/UrpuACt0BZI/AAAAAAAACL0/hGy_HPX6GXA/s0/QQ20131225-5.png" alt="测试IK中文分词" /></p>
+
+<h5>IK扩展字典</h5>
+
+<p><code>土豪金</code>分词</p>
+
+<p><img src="https://lh4.googleusercontent.com/-4wd5SjAHmIc/UrpsgX9cm7I/AAAAAAAACLs/pcAVDrRq0aw/s0/QQ20131225-4.png" alt="土豪金IK分词" /></p>
+
+<p><strong>土豪和金被分开索引, 我们希望的是<code>土豪金</code>也能被索引</strong></p>
+
+<ol>
+<li>创建目录/var/lib/tomcat6/webapps/solr/WEB-INF/classes</li>
+<li>拷贝IKAnalyzer.cfg.xml stopword.dic到classes目录</li>
+<li>修改IKAnalyzer.cfg.xml</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;  
+</span><span class='line'>&lt;properties&gt;  
+</span><span class='line'>  &lt;comment&gt;IK Analyzer 扩展配置&lt;/comment&gt;
+</span><span class='line'>  &lt;!--用户可以在这里配置自己的扩展字典 --&gt;
+</span><span class='line'>  &lt;entry key="ext_dict"&gt;ext.dic;&lt;/entry&gt; 
+</span><span class='line'>  &lt;!--用户可以在这里配置自己的扩展停止词字典--&gt;
+</span><span class='line'>  &lt;entry key="ext_stopwords"&gt;stopword.dic;&lt;/entry&gt; 
+</span><span class='line'>&lt;/properties&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>classes目录下创建 ext.dic, 加入<code>土豪金</code></li>
+<li>重启tomcat</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo service tomcat6 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>测试<code>土豪金</code></p>
+
+<p><img src="https://lh6.googleusercontent.com/-16st5B0kvU4/Urpx8qmx-DI/AAAAAAAACMI/ppZLg9KjfbI/s0/QQ20131225-6.png" alt="土豪金IK分词-扩展词典" /></p>
+
+<h4>sunspot</h4>
+
+<p>sunspot方便rails使用solr, 本地测试直接使用sunport_solr, 而production环境是使用ubuntu的tomcat, 需要做一些配置
+数据库用的mongodb</p>
+
+<ol>
+<li><p>修改core的名字 collection1 &ndash;> production</p>
+
+<ul>
+<li>/opt/solr/collection1 &ndash;> /opt/solr/production</li>
+<li><p>修改/opt/solr/production/core.properties</p>
+
+<pre><code>  name=production
+</code></pre></li>
+<li><p>重启tomcat</p></li>
+</ul>
+</li>
+<li><p>修改schema.xml, 内容替换为 <a href="https://gist.github.com/yaoyi/8120633/raw/3aaa5eab57616d37c4c0007f7a97e93e080214cf/schema-sunspot.xml">schema.xml</a></p></li>
+<li><p>Gemfile 加入 sunport, sunport-mongo支持</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem "sunspot_rails", '2.1.0'
+</span><span class='line'>gem 'sunspot_mongo', github: 'yaoyi/sunspot_mongo'</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>配置 sunspot.yml</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>production:
+</span><span class='line'>  solr:
+</span><span class='line'>    hostname: localhost
+</span><span class='line'>    port: 8080
+</span><span class='line'>    log_level: WARNING
+</span><span class='line'>    path: /solr/production
+</span><span class='line'>    # read_timeout: 2
+</span><span class='line'>    # open_timeout: 0.5</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>重建索引</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RAILS_ENV=production bundle exec rake sunspot:mongo:reindex</span></code></pre></td></tr></table></div></figure>
+
+
+<p>FAQ:</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-24T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 24<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/12/24/angularjs-ngAnimate/" itemprop="url">Angularjs Nganimate</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>使用ngAnimate的时候还是要小心
+比如在animate结束之前, dom是不会从页面上移除的, 这时候如果watch某个collection, collection可能马上变了，但是dom还是之前的个数，就会导致出现问题</p>
+
+<p data-height="266" data-theme-id="3139" data-slug-hash="iwAce" data-user="yaoyi" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/yaoyi/pen/iwAce'>angular animate demo </a> by yaoyi (<a href='http://codepen.io/yaoyi'>@yaoyi</a>) on <a href='http://codepen.io'>CodePen</a></p>
+
+
+<script async src="//codepen.io/assets/embed/ei.js"></script>
+
+
+<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-22T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 22<span>nd</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/12/22/angular-%24timeout-%24evelAsync/" itemprop="url">Angular $timeout $evelasync</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>To summarize:</p>
+
+<p>if code is queued using $evalAsync from a directive, it should run after the DOM has been manipulated by Angular, but before the browser renders
+if code is queued using $evalAsync from a controller, it should run before the DOM has been manipulated by Angular (and before the browser renders) &mdash; rarely do you want this
+if code is queued using $timeout, it should run after the DOM has been manipulated by Angular, and after the browser renders (which may cause flicker in some cases)</p>
+
+<p>The $evalAsync queue is used to schedule work which needs to occur outside of current stack frame, but before the browser&rsquo;s view render. &mdash; <a href="http://docs.angularjs.org/guide/concepts#runtime">http://docs.angularjs.org/guide/concepts#runtime</a></p>
+
+<p>Okay, so what&rsquo;s a &ldquo;stack frame&rdquo;? A Github comment reveals more:</p>
+
+<p>if you enqueue from a controller then it will be before, but if you enqueue from directive then it will be after. &mdash; <a href="https://github.com/angular/angular.js/issues/734#issuecomment-3675158">https://github.com/angular/angular.js/issues/734#issuecomment-3675158</a></p>
+
+<p>Above, Misko is discussing when code that is queued for execution by $evalAsync is run, in relation to when the DOM is updated by Angular. I suggest reading the two Github comments before as well, to get the full context.</p>
+
+<p>So if code is queued using $evalAsync from a directive, it should run after the DOM has been manipulated by Angular, but before the browser renders. If you need to run something after the browser renders, or after a controller updates a model, use $timeout(&hellip;, 0);</p>
+
+<p>See also <a href="http://stackoverflow.com/a/13619324/215945,">http://stackoverflow.com/a/13619324/215945,</a> which also has an example fiddle that uses $evalAsync().</p>
+
+<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-19T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 19<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/12/19/Angualr+module+get+vs+create/" itemprop="url">Angualr Module Get vs Create</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>angular.module 可以用来创建或者获取一个module. angular.module 接受两个参数，第一个参数是module的名字，第二个参数是可选的, 定义module的依赖
+同一个调用根据是否传入第二个参数来区分创建或者获取module</p>
+
+<p><strong>Angular Create Module</strong></p>
+
+<p>创建一个module</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var myModule = angular.module( 'moduleName', [ 
+</span><span class='line'> 'dependency1' ,
+</span><span class='line'> 'dependency2' 
+</span><span class='line'>]);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建同名的module, 前一个module会被覆盖,</p>
+
+<p><strong>Angular Get Module</strong></p>
+
+<p>&#8220;`</p>
+
+<p>&#8220;`</p>
+
+<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-17T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 17<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/12/17/angular+lazy+loading/" itemprop="url">Angular Lazy Loading</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>显示大量的图片, 首先想到的是使用分页
+但是用习惯了移动端的pullrefresh，就觉得分页</p>
+
+<p><a href="http://binarymuse.github.io/ngInfiniteScroll/">http://binarymuse.github.io/ngInfiniteScroll/</a></p>
+
+<p><a href="http://www.bennadel.com/blog/2498-Lazy-Loading-Image-With-AngularJS.htm">http://www.bennadel.com/blog/2498-Lazy-Loading-Image-With-AngularJS.htm</a></p>
+
+<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2013-11-18T00:00:00+08:00" data-updated="true" itemprop="datePublished">Nov 18<span>th</span>, 2013</time></div>
 		<div class="tags">
 
@@ -120,15 +562,18 @@
 <p>google爬取angularjs网站的时候，因为angularjs没执行， html中angularjs的markup没有被替换为响应的数据，
 所以当google索引你网站的页面的时候，它看到的是这样</p>
 
-<pre><code>&lt;h1&gt; -  - &lt;/h1&gt;
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h1&gt; -  - &lt;/h1&gt;</span></code></pre></td></tr></table></div></figure>
+
 
 <p>或者可能是这样</p>
 
-<pre><code>&lt;h1&gt;&lt;/h1&gt;
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h1&gt;&lt;/h1&gt;</span></code></pre></td></tr></table></div></figure>
 
-<p>而你希望被爬到的是这样</p>
+
+<p>  <br/>
+而你希望被爬到的是这样</p>
 
 <pre><code>&lt;h1&gt;Awesome App -User Profile - Fred James&lt;/h1&gt;
 </code></pre>
@@ -187,12 +632,239 @@
 <time datetime="2013-10-10T14:05:00+08:00" data-updated="true" itemprop="datePublished">Oct 10<span>th</span>, 2013</time></div>
 		<div class="tags">
 
+
+	<a class='category' href='/blog/categories/angularjs/'>angularjs</a>
+
+
 </div>
 		
 	</div>
 	<h1 class="title" itemprop="name"><a href="/blog/2013/10/10/hello-world/" itemprop="url">Hello World</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>hello world</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-10T14:05:00+08:00" data-updated="true" itemprop="datePublished">Oct 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/angularjs/'>angularjs</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/10/10/angularjs-drag-and-drop/" itemprop="url">Angularjs Drag and Drop</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>官网tab directive
+<a href="http://docs.angularjs.org/guide/directive">http://docs.angularjs.org/guide/directive</a></p>
+
+<p>官网的module</p>
+
+<p><a href="http://docs.angularjs.org/guide/directive">http://docs.angularjs.org/guide/directive</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>angular.module('dragModule', []).
+</span><span class='line'>  directive('myDraggable', function($document) {
+</span><span class='line'>    return function(scope, element, attr) {
+</span><span class='line'>      var startX = 0, startY = 0, x = 0, y = 0;
+</span><span class='line'> 
+</span><span class='line'>      element.css({
+</span><span class='line'>       position: 'relative',
+</span><span class='line'>       border: '1px solid red',
+</span><span class='line'>       backgroundColor: 'lightgrey',
+</span><span class='line'>       cursor: 'pointer'
+</span><span class='line'>      });
+</span><span class='line'> 
+</span><span class='line'>      element.on('mousedown', function(event) {
+</span><span class='line'>        // Prevent default dragging of selected content
+</span><span class='line'>        event.preventDefault();
+</span><span class='line'>        startX = event.pageX - x;
+</span><span class='line'>        startY = event.pageY - y;
+</span><span class='line'>        $document.on('mousemove', mousemove);
+</span><span class='line'>        $document.on('mouseup', mouseup);
+</span><span class='line'>      });
+</span><span class='line'> 
+</span><span class='line'>      function mousemove(event) {
+</span><span class='line'>        y = event.pageY - startY;
+</span><span class='line'>        x = event.pageX - startX;
+</span><span class='line'>        element.css({
+</span><span class='line'>          top: y + 'px',
+</span><span class='line'>          left:  x + 'px'
+</span><span class='line'>        });
+</span><span class='line'>      }
+</span><span class='line'> 
+</span><span class='line'>      function mouseup() {
+</span><span class='line'>        $document.unbind('mousemove', mousemove);
+</span><span class='line'>        $document.unbind('mouseup', mouseup);
+</span><span class='line'>      }
+</span><span class='line'>    }
+</span><span class='line'>  });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用jquery-ui的drag and drop</p>
+
+<p><a href="https://github.com/codef0rmer/angular-dragdrop">https://github.com/codef0rmer/angular-dragdrop</a></p>
+
+<p>太重</p>
+
+<p>另外一个不错的实现
+<a href="http://logicbomb.github.io/ng-directives/drag-drop.html">http://logicbomb.github.io/ng-directives/drag-drop.html</a></p>
+
+<p>有很多angularjs的directive
+<a href="http://www.directiv.es/">http://www.directiv.es/</a></p>
+
+<p>native drag-and-drop</p>
+
+<p><a href="http://blog.parkji.co.uk/2013/08/11/native-drag-and-drop-in-angularjs.html">http://blog.parkji.co.uk/2013/08/11/native-drag-and-drop-in-angularjs.html</a></p>
+
+<p>对应的实现
+<a href="http://ganarajpr.github.io/angular-dragdrop/">http://ganarajpr.github.io/angular-dragdrop/</a></p>
+
+<p>在onDrop中要記得不要刪除drag的element, 否則element的dragend就不會被調用，一些binding就不能得到清除,
+如果要刪除元素，請在on-drop-success中操作， drag和drop操作獨立有好處，但也增加了維護的複雜度</p>
+
+<p>上述的實現，在判斷是否成功drop的時候，是在drag的元素的 dragend事件中判斷 e.dataTransfer.dropEffect是否為none,
+因為設置ui-on-drop的元素，會綁定dragover等事件，並且在 dragover的時候將e.dataTransfer.dropEffect設置為&#8221;move&#8221;
+所以在dragend中如果為move，則認為element drop sucess.
+但這個帶來的問題就是, 沒有辦法和plupload的drop上傳和平共處, 通過dropEffect判斷是否成功也不夠獨立, 覺得應該需要設置獨立的標誌</p>
+
+<p>嘗試直接在onDrop事件中調用dataTranfer.setData, 但是失敗了
+因為出於安全考慮
+在dragstart事件中，可以調用e.dataTransfer.setData設置任何的值, 在onDrop中通過e.dataTransfer.getData獲取
+但是dragenter等中間事件沒有權限訪問這些值，擔心dragover的一些中間元素會設置listener從而獲取這些值
+這裡有一些解釋<a href="http://stackoverflow.com/questions/8762635/getting-the-filename-during-the-dragenter-event">http://stackoverflow.com/questions/8762635/getting-the-filename-during-the-dragenter-event</a></p>
+
+<p>經測試, 在onDrop中e.dataTransfer.setData不能成功</p>
+
+<p>想參考ANGULAR_DRAG_START, 利用 angular的事件機制，在原有的ANGULAR_DRAG_START,ANGULAR_DRAG_END的基礎上再增加ANGULAR_DROP_SUCCESS
+經過測試發現，如果在draggable的item上綁定ANGULAR_DROP_SUCCESS, 因為有多少個item就會綁定多少次, 而且觸發ANGULAR_DROP_SUCCESS的時候，所有都會響應，不成功</p>
+
+<p>最後還是使用了callback, 在uiDraggable內部定義了callback, 然後通過$rootScope.$broadcast傳遞給drop element, 最後在onDrop中囘調</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var dropped = false
+</span><span class='line'>function onDrop(e){
+</span><span class='line'>    console.log('hello drop success')
+</span><span class='line'>    dropped = true
+</span><span class='line'>    
+</span><span class='line'>}
+</span><span class='line'>element.bind("dragend", function (e) {
+</span><span class='line'>    if(dropped)
+</span><span class='line'>    {
+</span><span class='line'>        if (attrs.onDropSuccess) {
+</span><span class='line'>            var fn = $parse(attrs.onDropSuccess);
+</span><span class='line'>            scope.$apply(function () {
+</span><span class='line'>                fn(scope, {$event: e});
+</span><span class='line'>            });
+</span><span class='line'>        }    
+</span><span class='line'>    }
+</span><span class='line'>    dropped = false
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ondrop先觸發dragend后觸發，但不能保證對應囘調函數的執行順序也是ondrop在前, 但為了簡化操作，還是認為drop在dragend之前執行</p>
+
+<p>通過囘調設置flag, 再由dragend判斷flag執行刪除element操作基本符合了預期，之所以不在囘調就刪除元素，是因為dragend需要被調用來做一些清理去綁定的操作，否則後續的drag操作中會出現重複調用的問題, 如果在onDrop囘調中就刪除element, dragend就不會被調用
+之所以要動態綁定和解綁，和channel的引入都是爲了提高靈活性，與其他可能的drag&amp;drop操作區分開，否則比如一直綁定，從頁面外拖入文件也會得到響應，但就會出現問題</p>
+
+<p>現在單個的drag&amp;drop沒有問題
+開始考慮multi-drag&amp;drop
+首先multi drop的時候就需要隱藏沒有被drag的選中items, 所以要先新增一個callback, on-drag-start</p>
+
+<p>開始考慮拖動的效果問題</p>
+
+<p><a href="http://threedubmedia.com/demo/drag/">http://threedubmedia.com/demo/drag/</a>
+這裡的效果需要額外的jquery.event.drag插件輔助</p>
+
+<p><a href="http://www.kryogenix.org/code/browser/custom-drag-image.html">http://www.kryogenix.org/code/browser/custom-drag-image.html</a></p>
+
+<p><a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">http://www.html5rocks.com/en/tutorials/dnd/basics/</a></p>
+
+<p>官方文檔
+<a href="http://www.w3.org/TR/2011/WD-html5-20110405/dnd.html">http://www.w3.org/TR/2011/WD-html5-20110405/dnd.html</a></p>
+
+<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
+
+<ol>
+<li>fancybox 和div drag IE有冲突, 通过限制a href长度解决</li>
+<li>在upload之后select失效</li>
+<li>将orderBy直接移到common</li>
+<li>IE drag 无法调用onDropSuccess, 原来是是IE无法修改 e.dataTransfer.dropEffect的值</li>
+</ol>
+
 
 		
 		

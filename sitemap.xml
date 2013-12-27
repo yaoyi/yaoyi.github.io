@@ -1,20 +1,44 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://yaoyi.github.io/blog/2013/10/10/angularjs-drag-and-drop/</loc>
+        <lastmod>2013-12-23T01:32:37+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://yaoyi.github.io/blog/2013/10/10/hello-world/</loc>
-        <lastmod>2013-10-10T14:05:49+08:00</lastmod>
+        <lastmod>2013-12-22T00:46:21+08:00</lastmod>
     </url>
     <url>
         <loc>http://yaoyi.github.io/blog/2013/11/18/angularjs-seo/</loc>
-        <lastmod>2013-12-21T23:32:42+08:00</lastmod>
+        <lastmod>2013-12-21T23:40:47+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yaoyi.github.io/blog/2013/12/17/angular+lazy+loading/</loc>
+        <lastmod>2013-12-22T01:00:16+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yaoyi.github.io/blog/2013/12/19/Angualr+module+get+vs+create/</loc>
+        <lastmod>2013-12-22T00:58:16+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yaoyi.github.io/blog/2013/12/22/angular-%24timeout-%24evelAsync/</loc>
+        <lastmod>2013-12-22T18:13:43+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yaoyi.github.io/blog/2013/12/24/angularjs-ngAnimate/</loc>
+        <lastmod>2013-12-24T01:40:47+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yaoyi.github.io/blog/2013/12/24/ubunt+12.04+LTS-solr%E9%85%8D%E7%BD%AE/</loc>
+        <lastmod>2013-12-27T15:42:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://yaoyi.github.io/blog/archives/</loc>
-        <lastmod>2013-12-21T23:32:42+08:00</lastmod>
+        <lastmod>2013-12-27T15:42:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://yaoyi.github.io/</loc>
-        <lastmod>2013-12-21T23:32:42+08:00</lastmod>
+        <lastmod>2013-12-27T15:42:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://yaoyi.github.io/robots.txt</loc>

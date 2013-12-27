@@ -7,15 +7,18 @@
 <p>google爬取angularjs网站的时候，因为angularjs没执行， html中angularjs的markup没有被替换为响应的数据，
 所以当google索引你网站的页面的时候，它看到的是这样</p>
 
-<pre><code>&lt;h1&gt; -  - &lt;/h1&gt;
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h1&gt; -  - &lt;/h1&gt;</span></code></pre></td></tr></table></div></figure>
+
 
 <p>或者可能是这样</p>
 
-<pre><code>&lt;h1&gt;&lt;/h1&gt;
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h1&gt;&lt;/h1&gt;</span></code></pre></td></tr></table></div></figure>
 
-<p>而你希望被爬到的是这样</p>
+
+<p>  <br/>
+而你希望被爬到的是这样</p>
 
 <pre><code>&lt;h1&gt;Awesome App -User Profile - Fred James&lt;/h1&gt;
 </code></pre>

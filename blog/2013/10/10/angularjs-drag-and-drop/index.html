@@ -1,0 +1,330 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>angularjs drag and drop - yaoyi</title>
+	<meta name="author" content="Your Name">
+
+	
+	<meta name="description" content="Angularjs Drag and Drop 官网tab directive
+http://docs.angularjs.org/guide/directive 官网的module http://docs.angularjs.org/guide/directive 1
+2
+3
+4
+5
+6
+7 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="yaoyi" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://yaoyi.github.io/blog/2013/10/10/angularjs-drag-and-drop/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("linyaoyi011@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1><a href="/">yaoyi</a></h1>
+  
+</hgroup>
+
+<p class="subtitle"></p>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/116922860543225894851" rel="author" title="Google+">Google+</a>
+		
+		
+		<a class="twitter" href="http://twitter.com/yaoyi_in" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/yaoyi" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Angularjs Drag and Drop</h1>
+	<div class="entry-content" itemprop="articleBody"><p>官网tab directive
+<a href="http://docs.angularjs.org/guide/directive">http://docs.angularjs.org/guide/directive</a></p>
+
+<p>官网的module</p>
+
+<p><a href="http://docs.angularjs.org/guide/directive">http://docs.angularjs.org/guide/directive</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>angular.module('dragModule', []).
+</span><span class='line'>  directive('myDraggable', function($document) {
+</span><span class='line'>    return function(scope, element, attr) {
+</span><span class='line'>      var startX = 0, startY = 0, x = 0, y = 0;
+</span><span class='line'> 
+</span><span class='line'>      element.css({
+</span><span class='line'>       position: 'relative',
+</span><span class='line'>       border: '1px solid red',
+</span><span class='line'>       backgroundColor: 'lightgrey',
+</span><span class='line'>       cursor: 'pointer'
+</span><span class='line'>      });
+</span><span class='line'> 
+</span><span class='line'>      element.on('mousedown', function(event) {
+</span><span class='line'>        // Prevent default dragging of selected content
+</span><span class='line'>        event.preventDefault();
+</span><span class='line'>        startX = event.pageX - x;
+</span><span class='line'>        startY = event.pageY - y;
+</span><span class='line'>        $document.on('mousemove', mousemove);
+</span><span class='line'>        $document.on('mouseup', mouseup);
+</span><span class='line'>      });
+</span><span class='line'> 
+</span><span class='line'>      function mousemove(event) {
+</span><span class='line'>        y = event.pageY - startY;
+</span><span class='line'>        x = event.pageX - startX;
+</span><span class='line'>        element.css({
+</span><span class='line'>          top: y + 'px',
+</span><span class='line'>          left:  x + 'px'
+</span><span class='line'>        });
+</span><span class='line'>      }
+</span><span class='line'> 
+</span><span class='line'>      function mouseup() {
+</span><span class='line'>        $document.unbind('mousemove', mousemove);
+</span><span class='line'>        $document.unbind('mouseup', mouseup);
+</span><span class='line'>      }
+</span><span class='line'>    }
+</span><span class='line'>  });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用jquery-ui的drag and drop</p>
+
+<p><a href="https://github.com/codef0rmer/angular-dragdrop">https://github.com/codef0rmer/angular-dragdrop</a></p>
+
+<p>太重</p>
+
+<p>另外一个不错的实现
+<a href="http://logicbomb.github.io/ng-directives/drag-drop.html">http://logicbomb.github.io/ng-directives/drag-drop.html</a></p>
+
+<p>有很多angularjs的directive
+<a href="http://www.directiv.es/">http://www.directiv.es/</a></p>
+
+<p>native drag-and-drop</p>
+
+<p><a href="http://blog.parkji.co.uk/2013/08/11/native-drag-and-drop-in-angularjs.html">http://blog.parkji.co.uk/2013/08/11/native-drag-and-drop-in-angularjs.html</a></p>
+
+<p>对应的实现
+<a href="http://ganarajpr.github.io/angular-dragdrop/">http://ganarajpr.github.io/angular-dragdrop/</a></p>
+
+<p>在onDrop中要記得不要刪除drag的element, 否則element的dragend就不會被調用，一些binding就不能得到清除,
+如果要刪除元素，請在on-drop-success中操作， drag和drop操作獨立有好處，但也增加了維護的複雜度</p>
+
+<p>上述的實現，在判斷是否成功drop的時候，是在drag的元素的 dragend事件中判斷 e.dataTransfer.dropEffect是否為none,
+因為設置ui-on-drop的元素，會綁定dragover等事件，並且在 dragover的時候將e.dataTransfer.dropEffect設置為&#8221;move&#8221;
+所以在dragend中如果為move，則認為element drop sucess.
+但這個帶來的問題就是, 沒有辦法和plupload的drop上傳和平共處, 通過dropEffect判斷是否成功也不夠獨立, 覺得應該需要設置獨立的標誌</p>
+
+<p>嘗試直接在onDrop事件中調用dataTranfer.setData, 但是失敗了
+因為出於安全考慮
+在dragstart事件中，可以調用e.dataTransfer.setData設置任何的值, 在onDrop中通過e.dataTransfer.getData獲取
+但是dragenter等中間事件沒有權限訪問這些值，擔心dragover的一些中間元素會設置listener從而獲取這些值
+這裡有一些解釋<a href="http://stackoverflow.com/questions/8762635/getting-the-filename-during-the-dragenter-event">http://stackoverflow.com/questions/8762635/getting-the-filename-during-the-dragenter-event</a></p>
+
+<p>經測試, 在onDrop中e.dataTransfer.setData不能成功</p>
+
+<p>想參考ANGULAR_DRAG_START, 利用 angular的事件機制，在原有的ANGULAR_DRAG_START,ANGULAR_DRAG_END的基礎上再增加ANGULAR_DROP_SUCCESS
+經過測試發現，如果在draggable的item上綁定ANGULAR_DROP_SUCCESS, 因為有多少個item就會綁定多少次, 而且觸發ANGULAR_DROP_SUCCESS的時候，所有都會響應，不成功</p>
+
+<p>最後還是使用了callback, 在uiDraggable內部定義了callback, 然後通過$rootScope.$broadcast傳遞給drop element, 最後在onDrop中囘調</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var dropped = false
+</span><span class='line'>function onDrop(e){
+</span><span class='line'>    console.log('hello drop success')
+</span><span class='line'>    dropped = true
+</span><span class='line'>    
+</span><span class='line'>}
+</span><span class='line'>element.bind("dragend", function (e) {
+</span><span class='line'>    if(dropped)
+</span><span class='line'>    {
+</span><span class='line'>        if (attrs.onDropSuccess) {
+</span><span class='line'>            var fn = $parse(attrs.onDropSuccess);
+</span><span class='line'>            scope.$apply(function () {
+</span><span class='line'>                fn(scope, {$event: e});
+</span><span class='line'>            });
+</span><span class='line'>        }    
+</span><span class='line'>    }
+</span><span class='line'>    dropped = false
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ondrop先觸發dragend后觸發，但不能保證對應囘調函數的執行順序也是ondrop在前, 但為了簡化操作，還是認為drop在dragend之前執行</p>
+
+<p>通過囘調設置flag, 再由dragend判斷flag執行刪除element操作基本符合了預期，之所以不在囘調就刪除元素，是因為dragend需要被調用來做一些清理去綁定的操作，否則後續的drag操作中會出現重複調用的問題, 如果在onDrop囘調中就刪除element, dragend就不會被調用
+之所以要動態綁定和解綁，和channel的引入都是爲了提高靈活性，與其他可能的drag&amp;drop操作區分開，否則比如一直綁定，從頁面外拖入文件也會得到響應，但就會出現問題</p>
+
+<p>現在單個的drag&amp;drop沒有問題
+開始考慮multi-drag&amp;drop
+首先multi drop的時候就需要隱藏沒有被drag的選中items, 所以要先新增一個callback, on-drag-start</p>
+
+<p>開始考慮拖動的效果問題</p>
+
+<p><a href="http://threedubmedia.com/demo/drag/">http://threedubmedia.com/demo/drag/</a>
+這裡的效果需要額外的jquery.event.drag插件輔助</p>
+
+<p><a href="http://www.kryogenix.org/code/browser/custom-drag-image.html">http://www.kryogenix.org/code/browser/custom-drag-image.html</a></p>
+
+<p><a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">http://www.html5rocks.com/en/tutorials/dnd/basics/</a></p>
+
+<p>官方文檔
+<a href="http://www.w3.org/TR/2011/WD-html5-20110405/dnd.html">http://www.w3.org/TR/2011/WD-html5-20110405/dnd.html</a></p>
+
+<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
+
+<ol>
+<li>fancybox 和div drag IE有冲突, 通过限制a href长度解决</li>
+<li>在upload之后select失效</li>
+<li>将orderBy直接移到common</li>
+<li>IE drag 无法调用onDropSuccess, 原来是是IE无法修改 e.dataTransfer.dropEffect的值</li>
+</ol>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<p>To summarize:</p>
+
+<p>if code is queued using $evalAsync from a directive, it should run after the DOM has been manipulated by Angular, but before the browser renders
+if code is queued using $evalAsync from a controller, it should run before the DOM has been manipulated by Angular (and before the browser renders) &mdash; rarely do you want this
+if code is queued using $timeout, it should run after the DOM has been manipulated by Angular, and after the browser renders (which may cause flicker in some cases)</p>
+
+<p>The $evalAsync queue is used to schedule work which needs to occur outside of current stack frame, but before the browser&rsquo;s view render. &mdash; <a href="http://docs.angularjs.org/guide/concepts#runtime">http://docs.angularjs.org/guide/concepts#runtime</a></p>
+
+<p>Okay, so what&rsquo;s a &ldquo;stack frame&rdquo;? A Github comment reveals more:</p>
+
+<p>if you enqueue from a controller then it will be before, but if you enqueue from directive then it will be after. &mdash; <a href="https://github.com/angular/angular.js/issues/734#issuecomment-3675158">https://github.com/angular/angular.js/issues/734#issuecomment-3675158</a></p>
+
+<p>Above, Misko is discussing when code that is queued for execution by $evalAsync is run, in relation to when the DOM is updated by Angular. I suggest reading the two Github comments before as well, to get the full context.</p>
+
+<p>So if code is queued using $evalAsync from a directive, it should run after the DOM has been manipulated by Angular, but before the browser renders. If you need to run something after the browser renders, or after a controller updates a model, use $timeout(&hellip;, 0);</p>
+
+<p>See also <a href="http://stackoverflow.com/a/13619324/215945,">http://stackoverflow.com/a/13619324/215945,</a> which also has an example fiddle that uses $evalAsync().</p>
+
+<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
